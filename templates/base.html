@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: rgb(239, 229, 216);
+        }
+
         #navbar {
             background-color: rgb(162, 238, 240);
             padding: 12px;
@@ -23,28 +29,39 @@
             border-radius: 3px;
             margin-left: 12px;
         }
+
+        #container {
+            text-align: center;
+
+        }
     </style>
+    {% block style %}
+    {% endblock %}
+
+
 </head>
 
 <body>
     <div id="navbar">
-
         {% if user.is_authenticated %}
         使用者:<span class="username">
             <a href=" {% url 'profile' %}">{{user.username}}</a>
         </span>
         <a class="button" href="{% url 'logout' %}">登出</a>
+        <a class="button" style="background-color:rgb(255, 0, 200);" href="{% url 'create-todo' %}">建立事項</a>
         {% else %}
         <a class="button" href="{% url 'login' %}">登入</a>
         <a class="button" href="{% url 'register' %}">註冊</a>
-
         {% endif %}
 
-        <a class="button" style="background-color: chartreuse;" href="/">回首頁</a>
+        <a class="button" style="background-color: chartreuse;" href="{% url 'todolist' %}">回首頁</a>
+
     </div>
-    {% block content %}
-    {% endblock %}
-    <div style="color:red">{{message}}</div>
+    <div id="container">
+        {% block content %}
+        {% endblock %}
+        <div style="color:red">{{message}}</div>
+    </div>
 </body>
 
 </html>

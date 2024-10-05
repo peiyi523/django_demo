@@ -5,6 +5,7 @@ from .forms import TodoForm
 # Create your views here.
 
 
+# 新增待事項
 def create_todo(request):
     message = ""
     user = request.user
@@ -30,16 +31,20 @@ def create_todo(request):
         )
 
 
+# 檢視待辦事項
 def todo(request, id):
     message = ""
     todo = None
     user = request.user  # user id要對才會顯示
     try:
         todo = Todo.objects.get(id=id, user=user)
+        form = TodoForm(instance=todo)
     except Exception as e:
         print(e)
         message = "編號錯誤"
-    return render(request, "todo/todo.html", {"todo": todo, "message": message})
+    return render(
+        request, "todo/todo.html", {"form": form, "todo": todo, "message": message}
+    )
 
 
 def todolist(request):
